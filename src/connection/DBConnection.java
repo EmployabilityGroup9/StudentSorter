@@ -21,7 +21,7 @@ public class DBConnection {
         //TRY LOADING SUN DRIVER
         try{
             Class driver = org.apache.derby.jdbc.ClientDriver.class;
-            System.out.println("Class = " + driver.getSimpleName());
+            //System.out.println("Class = " + driver.getSimpleName());
             Class.forName("org.apache.derby.jdbc.ClientDriver");
         }catch(ClassNotFoundException err){
             System.out.println("Could not load driver ");

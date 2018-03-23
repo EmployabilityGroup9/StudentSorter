@@ -27,4 +27,15 @@ public class classesConnection extends DBConnection{
             System.out.println("Exception when inserting class record: " + sqle.toString());
         }
     }
+    
+    public void deleteRecord(final String className){
+        final String deleteStmt = "DELETE FROM richard.classes WHERE CLASSNAME = ?";
+        try{
+            PreparedStatement pstmt = getConnection().prepareStatement(deleteStmt);
+            pstmt.setString(1, className);
+            pstmt.executeUpdate();
+        }catch(SQLException sqle){
+            System.err.println("Exception when deleting class from database: " + sqle.toString());
+        }
+    }
 }

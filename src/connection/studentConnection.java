@@ -32,4 +32,16 @@ public class studentConnection extends DBConnection {
             System.out.println("Exception when inserting Student record: " + sqle.toString());
         }
     }
+    
+    public void deleteRecord(final String firstName, final String surName){
+        final String deleteStmt = "DELETE FROM richard.students WHERE FIRSTNAME = ? AND SURNAME = ?";
+        try{
+            PreparedStatement pstmt = getConnection().prepareStatement(deleteStmt);
+            pstmt.setString(1, firstName);
+            pstmt.setString(2, surName);
+            pstmt.executeUpdate();
+        }catch(SQLException sqle){
+            System.err.println("Exception when deleting student from the database: " + sqle.toString());
+        }
+    }
 }

@@ -19,13 +19,24 @@ public class rolesConnection extends DBConnection{
     }
     
     public void insertRecord(final String roleName){
-        final String insertStmt = "INSERT INTO richard.classes (CLASSNAME) VALUES (?)";
+        final String insertStmt = "INSERT INTO richard.roles (ROLE) VALUES (?)";
         try{
             PreparedStatement pstmt = getConnection().prepareStatement(insertStmt);
             pstmt.setString(1, roleName);
             pstmt.executeUpdate();
         }catch(SQLException sqle){
-            System.out.println("Exception when inserting class record: " + sqle.toString());
+            System.out.println("Exception when inserting role record: " + sqle.toString());
+        }
+    }
+    
+    public void deleteRcord(final String roleName){
+        final String deleteStmt = "DELETE FROM richard.roles WHERE ROLE = ?";
+        try{
+            PreparedStatement pstmt = getConnection().prepareStatement(deleteStmt);
+            pstmt.setString(1, roleName);
+            pstmt.executeUpdate();
+        }catch(SQLException sqle){
+            System.err.println("Error deleting role from the database: " + sqle.toString());
         }
     }
 }

@@ -33,4 +33,15 @@ public class skillsConnection extends DBConnection{
             System.out.println("Exception when inserting skill record: " + sqle.toString());
         }
     }
+    
+    public void deleteRecord(final String skill){
+        final String deleteStmt = "DELETE FROM richard.skills WHERE SKILL = ?";
+        try{
+            PreparedStatement pstmt = getConnection().prepareStatement(deleteStmt);
+            pstmt.setString(1, skill);
+            pstmt.executeUpdate();
+        }catch(SQLException sqle){
+            System.err.println("Error when deleting skill from database: " + sqle.toString());
+        }
+    }
 }
