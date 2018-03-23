@@ -178,6 +178,11 @@ public class LecturerForm extends javax.swing.JFrame {
         jLabel6.setText("Roles");
 
         btnRDelete.setText("Delete");
+        btnRDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRDeleteActionPerformed(evt);
+            }
+        });
 
         jLabel7.setText("Role:");
 
@@ -214,7 +219,7 @@ public class LecturerForm extends javax.swing.JFrame {
 
         jLabel11.setText("Role:");
 
-        jLabel12.setText("First Name:");
+        jLabel12.setText("Skill:");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -443,6 +448,30 @@ public class LecturerForm extends javax.swing.JFrame {
             System.err.println("Error deleting class from the database: " + sqle.toString());
         }
     }//GEN-LAST:event_btnCDeleteActionPerformed
+
+    private void btnRDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRDeleteActionPerformed
+        try{
+            final String retrieveQuery = "SELECT ROLE from richard.roles";
+            rc.setQuery(retrieveQuery);
+            rc.runQuery();
+            ResultSet output = rc.getResultSet();
+            String roleName = txtRDelete.getText();
+            if(null != output){
+                while(output.next()){
+                    String rName = output.getString("ROLE");
+                    if(roleName.equals(rName)){
+                        rc.deleteRecord(roleName);
+                        rc.closeConnection();
+                        JOptionPane.showMessageDialog(null, "Role deleted");
+                    }else{
+                        JOptionPane.showMessageDialog(null, "Role does not exist in the database");
+                    }
+                }
+            }
+        }catch(SQLException sqle){
+            System.err.println("Error deleting role from the database: " + sqle.toString());
+        }
+    }//GEN-LAST:event_btnRDeleteActionPerformed
 
     /**
      * @param args the command line arguments
