@@ -36,6 +36,8 @@ public class StudentSorter extends javax.swing.JFrame {
         addTable();
         addToCDropBox();
         addToRDropBox();
+        getGroups();
+        //test("Programming");
     }
 
     /**
@@ -216,6 +218,37 @@ public class StudentSorter extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void getGroups(){
+        System.out.println("Group: pRole - fName - sName - cName - sRole");
+        for(int i=0;i<rolesComboBox.getItemCount();i++){
+            String skill = rolesComboBox.getItemAt(i);
+            splitStudents(skill);
+        }
+    }
+    
+    private void splitStudents(final String skillName){
+        final String retrieveQuery = "SELECT * from richard.students";
+        sc.setQuery(retrieveQuery);
+        sc.runQuery();
+        ResultSet output = sc.getResultSet();
+        try{
+            if(null != output){
+                while(output.next()){
+                    String fName = output.getString(1);
+                    String sName = output.getString(2);
+                    String cName = output.getString(3);
+                    String pRole = output.getString(4);
+                    String sRole = output.getString(5);
+                    if(skillName.equals(pRole)){
+                        System.out.println("Group: " + pRole + " - " + fName + " - " + sName + " - " + cName + " - " + sRole);
+                    }
+                }
+            }
+        }catch(SQLException sqle){
+            System.err.println("Error retrieving students from database: " + sqle.toString());
+        }
+    }
+    
     private void btnSubmitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSubmitActionPerformed
         getRatings();
         row = jTable1.getSelectedRow();
