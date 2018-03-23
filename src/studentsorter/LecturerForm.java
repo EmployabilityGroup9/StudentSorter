@@ -5,9 +5,11 @@
  */
 package studentsorter;
 
+import connection.classesConnection;
+import connection.rolesConnection;
 import connection.skillsConnection;
 import javax.swing.JOptionPane;
-
+import java.sql.*;
 
 /**
  *
@@ -15,14 +17,73 @@ import javax.swing.JOptionPane;
  */
 public class LecturerForm extends javax.swing.JFrame {
     skillsConnection skc = new skillsConnection("SSDB");
+    classesConnection cc = new classesConnection("SSDB");
+    rolesConnection rc = new rolesConnection("SSDB");
     
     /**
      * Creates new form LecturerForm
      */
     public LecturerForm() {
         initComponents();
+        addSkillsToList();
+        addClassesToList();
+        addRolesToList();
     }
 
+    private void addSkillsToList(){
+        final String retrieveQuery = "SELECT SKILL from richard.skills";
+        skc.setQuery(retrieveQuery);
+        skc.runQuery();
+        ResultSet output = skc.getResultSet();
+        sTxtArea.setEditable(false);
+        try{
+            if(null != output){
+                while(output.next()){
+                    String skill = output.getString(1);
+                    sTxtArea.append(skill + "\n");
+                }
+            }
+        }catch(SQLException sqle){
+            System.err.println("Error adding skills to list: " + sqle.toString());
+        }
+    }
+    
+    private void addClassesToList(){
+        final String retrieveQuery = "SELECT CLASS from richard.classes";
+        cc.setQuery(retrieveQuery);
+        cc.runQuery();
+        ResultSet output = cc.getResultSet();
+        cTxtArea.setEditable(false);
+        try{
+            if(null != output){
+                while(output.next()){
+                    String skill = output.getString(1);
+                    cTxtArea.append(skill + "\n");
+                }
+            }
+        }catch(SQLException sqle){
+            System.err.println("Error adding classes to list: " + sqle.toString());
+        }
+    }
+    
+    private void addRolesToList(){
+        final String retrieveQuery = "SELECT ROLE from richard.roles";
+        rc.setQuery(retrieveQuery);
+        rc.runQuery();
+        ResultSet output = rc.getResultSet();
+        rTxtArea.setEditable(false);
+        try{
+            if(null != output){
+                while(output.next()){
+                    String skill = output.getString(1);
+                    rTxtArea.append(skill + "\n");
+                }
+            }
+        }catch(SQLException sqle){
+            System.err.println("Error adding roles to list: " + sqle.toString());
+        }
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -33,35 +94,33 @@ public class LecturerForm extends javax.swing.JFrame {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jSList = new javax.swing.JList<>();
         jLabel2 = new javax.swing.JLabel();
         btnSDelete = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
         txtSkill = new javax.swing.JTextField();
         btnSAdd = new javax.swing.JButton();
         btnBack = new javax.swing.JButton();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        jCList = new javax.swing.JList<>();
         jLabel4 = new javax.swing.JLabel();
         btnCDelete = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
         txtClass = new javax.swing.JTextField();
         btnCAdd = new javax.swing.JButton();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        jRList1 = new javax.swing.JList<>();
         jLabel6 = new javax.swing.JLabel();
         btnRDelete = new javax.swing.JButton();
         jLabel7 = new javax.swing.JLabel();
         txtRole = new javax.swing.JTextField();
         btnRAdd = new javax.swing.JButton();
         jLabel8 = new javax.swing.JLabel();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        sTxtArea = new javax.swing.JTextArea();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        cTxtArea = new javax.swing.JTextArea();
+        jScrollPane6 = new javax.swing.JScrollPane();
+        rTxtArea = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jLabel1.setText("Remove Skills - Roles - Classes");
-
-        jScrollPane1.setViewportView(jSList);
 
         jLabel2.setText("Skills");
 
@@ -83,8 +142,6 @@ public class LecturerForm extends javax.swing.JFrame {
             }
         });
 
-        jScrollPane2.setViewportView(jCList);
-
         jLabel4.setText("Classes");
 
         btnCDelete.setText("Delete");
@@ -97,8 +154,6 @@ public class LecturerForm extends javax.swing.JFrame {
                 btnCAddActionPerformed(evt);
             }
         });
-
-        jScrollPane3.setViewportView(jRList1);
 
         jLabel6.setText("Roles");
 
@@ -115,96 +170,104 @@ public class LecturerForm extends javax.swing.JFrame {
 
         jLabel8.setText("Add Skills - Roles - Classes");
 
+        jScrollPane4.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+
+        sTxtArea.setColumns(20);
+        sTxtArea.setRows(5);
+        jScrollPane4.setViewportView(sTxtArea);
+
+        jScrollPane5.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+
+        cTxtArea.setColumns(20);
+        cTxtArea.setRows(5);
+        jScrollPane5.setViewportView(cTxtArea);
+
+        jScrollPane6.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+
+        rTxtArea.setColumns(20);
+        rTxtArea.setRows(5);
+        jScrollPane6.setViewportView(rTxtArea);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnBack)
                     .addGroup(layout.createSequentialGroup()
+                        .addGap(38, 38, 38)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1)
+                            .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(10, 10, 10)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(btnSDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(35, 35, 35)
-                                        .addComponent(jLabel2))))
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(18, 18, 18)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(layout.createSequentialGroup()
                                         .addGap(10, 10, 10)
-                                        .addComponent(btnCDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel4)
-                                .addGap(44, 44, 44)))
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(53, 53, 53)
+                                        .addComponent(btnSDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(jLabel2))
+                                .addGap(38, 38, 38)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(layout.createSequentialGroup()
                                         .addGap(10, 10, 10)
-                                        .addComponent(btnRDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel6)
-                                .addGap(45, 45, 45))))
+                                        .addComponent(btnCDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel4))
+                                .addGap(28, 28, 28)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(10, 10, 10)
+                                        .addComponent(btnRDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(jLabel6)))))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(btnCAdd)
+                        .addContainerGap()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnBack)
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(btnSAdd)
+                                    .addComponent(btnCAdd)
                                     .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jLabel3)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addComponent(btnSAdd)
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addComponent(jLabel3)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                                .addComponent(txtSkill, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                        .addGap(18, 18, 18)
+                                        .addComponent(jLabel5)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(txtSkill, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                        .addComponent(txtClass, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                 .addGap(18, 18, 18)
-                                .addComponent(jLabel5)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(txtClass, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(btnRAdd)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel7)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(txtRole, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addComponent(jLabel8))
-                .addContainerGap(58, Short.MAX_VALUE))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(btnRAdd)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel7)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(txtRole, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(jLabel8)
+                            .addComponent(jLabel1))))
+                .addContainerGap(56, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addGap(7, 7, 7)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel4)))
+                .addComponent(jLabel1)
+                .addGap(7, 7, 7)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(jLabel4)
                     .addComponent(jLabel6))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE)
+                    .addComponent(jScrollPane5, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane6, javax.swing.GroupLayout.Alignment.LEADING))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnSDelete)
                     .addComponent(btnCDelete)
                     .addComponent(btnRDelete))
-                .addGap(18, 18, 18)
+                .addGap(56, 56, 56)
                 .addComponent(jLabel8)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -224,7 +287,7 @@ public class LecturerForm extends javax.swing.JFrame {
                             .addComponent(txtRole, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addComponent(btnRAdd)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 142, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 104, Short.MAX_VALUE)
                 .addComponent(btnBack)
                 .addContainerGap())
         );
@@ -308,7 +371,7 @@ public class LecturerForm extends javax.swing.JFrame {
     private javax.swing.JButton btnRDelete;
     private javax.swing.JButton btnSAdd;
     private javax.swing.JButton btnSDelete;
-    private javax.swing.JList<String> jCList;
+    private javax.swing.JTextArea cTxtArea;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -317,11 +380,11 @@ public class LecturerForm extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
-    private javax.swing.JList<String> jRList1;
-    private javax.swing.JList<String> jSList;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JScrollPane jScrollPane5;
+    private javax.swing.JScrollPane jScrollPane6;
+    private javax.swing.JTextArea rTxtArea;
+    private javax.swing.JTextArea sTxtArea;
     private javax.swing.JTextField txtClass;
     private javax.swing.JTextField txtRole;
     private javax.swing.JTextField txtSkill;
