@@ -52,7 +52,7 @@
                           <Component id="txtFName" pref="161" max="32767" attributes="0"/>
                           <Component id="txtSName" pref="161" max="32767" attributes="0"/>
                           <Component id="classComboBox" alignment="0" max="32767" attributes="0"/>
-                          <Component id="pRoleComboBox" alignment="0" max="32767" attributes="0"/>
+                          <Component id="rolesComboBox" alignment="0" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
@@ -112,7 +112,7 @@
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="jLabel5" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="pRoleComboBox" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="rolesComboBox" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace min="-2" pref="29" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
@@ -250,29 +250,21 @@
     <Component class="javax.swing.JComboBox" name="classComboBox">
       <Properties>
         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-          <StringArray count="2">
-            <StringItem index="0" value="Morning"/>
-            <StringItem index="1" value="Afternoon"/>
-          </StringArray>
+          <StringArray count="0"/>
         </Property>
       </Properties>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
       </AuxValues>
     </Component>
-    <Component class="javax.swing.JComboBox" name="pRoleComboBox">
+    <Component class="javax.swing.JComboBox" name="rolesComboBox">
       <Properties>
         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-          <StringArray count="4">
-            <StringItem index="0" value="Manager"/>
-            <StringItem index="1" value="Designer"/>
-            <StringItem index="2" value="Developer"/>
-            <StringItem index="3" value="Tester"/>
-          </StringArray>
+          <StringArray count="0"/>
         </Property>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="pRoleComboBoxActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="rolesComboBoxActionPerformed"/>
       </Events>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>

@@ -5,9 +5,12 @@
  */
 package studentsorter;
 
+import connection.classesConnection;
+import connection.rolesConnection;
 import connection.skillsConnection;
 import connection.studentConnection;
 import java.sql.*;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 
@@ -18,6 +21,8 @@ import javax.swing.table.DefaultTableModel;
 public class StudentSorter extends javax.swing.JFrame {
     studentConnection sc = new studentConnection("SSDB");
     skillsConnection skc = new skillsConnection("SSDB");
+    classesConnection cc = new classesConnection("SSDB");
+    rolesConnection rc = new rolesConnection("SSDB");
     
     private String sRole;
     private int row;
@@ -29,6 +34,8 @@ public class StudentSorter extends javax.swing.JFrame {
     public StudentSorter() {
         initComponents();
         addTable();
+        addToCDropBox();
+        addToRDropBox();
     }
 
     /**
@@ -59,7 +66,7 @@ public class StudentSorter extends javax.swing.JFrame {
         jTable1 = new javax.swing.JTable();
         jLabel7 = new javax.swing.JLabel();
         classComboBox = new javax.swing.JComboBox<>();
-        pRoleComboBox = new javax.swing.JComboBox<>();
+        rolesComboBox = new javax.swing.JComboBox<>();
         btnLec = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -115,12 +122,9 @@ public class StudentSorter extends javax.swing.JFrame {
 
         jLabel7.setText("Minimum/Maximum of one to be rated as 5");
 
-        classComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Morning", "Afternoon" }));
-
-        pRoleComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Manager", "Designer", "Developer", "Tester" }));
-        pRoleComboBox.addActionListener(new java.awt.event.ActionListener() {
+        rolesComboBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                pRoleComboBoxActionPerformed(evt);
+                rolesComboBoxActionPerformed(evt);
             }
         });
 
@@ -149,7 +153,7 @@ public class StudentSorter extends javax.swing.JFrame {
                             .addComponent(txtFName, javax.swing.GroupLayout.DEFAULT_SIZE, 161, Short.MAX_VALUE)
                             .addComponent(txtSName, javax.swing.GroupLayout.DEFAULT_SIZE, 161, Short.MAX_VALUE)
                             .addComponent(classComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(pRoleComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addComponent(rolesComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
@@ -193,7 +197,7 @@ public class StudentSorter extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
-                    .addComponent(pRoleComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(rolesComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(29, 29, 29)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -213,16 +217,24 @@ public class StudentSorter extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnSubmitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSubmitActionPerformed
+        getRatings();
         row = jTable1.getSelectedRow();
         col = jTable1.getSelectedColumn();
         
         String fName = txtFName.getText();
         String sName = txtSName.getText();
         String class1 = classComboBox.getSelectedItem().toString();
-        String pRole = pRoleComboBox.getSelectedItem().toString();
+        String pRole = rolesComboBox.getSelectedItem().toString();
         //sRole
-        
-        getRatings();
+        try{
+            sc.insertRecord(fName, sName, class1, pRole, sRole);
+            sc.closeConnection();
+            JOptionPane.showMessageDialog(null, "Student added");
+            txtFName.setText("");
+            txtSName.setText("");
+        }catch(Exception e){
+            System.err.println("Exception added student to database: " + e.toString());
+        }
         System.out.println("Strongest Role: " + sRole);
     }//GEN-LAST:event_btnSubmitActionPerformed
 
@@ -274,6 +286,40 @@ public class StudentSorter extends javax.swing.JFrame {
         //System.out.println("Strongest Role: " + strongRole);
     }
     
+    private void addToCDropBox(){
+        final String retrieveQuery = "SELECT CLASSNAME from richard.classes";
+        cc.setQuery(retrieveQuery);
+        cc.runQuery();
+        ResultSet output = cc.getResultSet();
+        try{
+            if(null != output){
+                while(output.next()){
+                    String className = output.getString(1);
+                    classComboBox.addItem(className);
+                }
+            }
+        }catch (SQLException sqle){
+            System.err.println("Error finding classes from the database: " + sqle.toString());
+        }
+    }
+    
+    private void addToRDropBox(){
+        final String retrieveQuery = "SELECT ROLE from richard.roles";
+        rc.setQuery(retrieveQuery);
+        rc.runQuery();
+        ResultSet output = rc.getResultSet();
+        try{
+            if(null != output){
+                while(output.next()){
+                    String roleName = output.getString(1);
+                    rolesComboBox.addItem(roleName);
+                }
+            }
+        }catch (SQLException sqle){
+            System.err.println("Error finding classes from the database: " + sqle.toString());
+        }
+    }
+    
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
         row = jTable1.getSelectedRow();
         col = jTable1.getSelectedColumn();
@@ -291,13 +337,13 @@ public class StudentSorter extends javax.swing.JFrame {
 
     }//GEN-LAST:event_jTable1PropertyChange
 
-    private void pRoleComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pRoleComboBoxActionPerformed
+    private void rolesComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rolesComboBoxActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_pRoleComboBoxActionPerformed
+    }//GEN-LAST:event_rolesComboBoxActionPerformed
 
     private void btnLecActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLecActionPerformed
-        LecturerForm lf = new LecturerForm();
-        lf.setVisible(true);
+        LecturerLogin ll = new LecturerLogin();
+        ll.setVisible(true);
     }//GEN-LAST:event_btnLecActionPerformed
 
     /**
@@ -353,8 +399,8 @@ public class StudentSorter extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     private javax.swing.ButtonGroup pBtnGroup;
-    private javax.swing.JComboBox<String> pRoleComboBox;
     private javax.swing.ButtonGroup plBtnGroup;
+    private javax.swing.JComboBox<String> rolesComboBox;
     private javax.swing.ButtonGroup tmBtnGroup;
     private javax.swing.JTextField txtFName;
     private javax.swing.JTextField txtSName;

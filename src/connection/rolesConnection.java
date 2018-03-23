@@ -29,7 +29,7 @@ public class rolesConnection extends DBConnection{
         }
     }
     
-    public void deleteRcord(final String roleName){
+    public void deleteRecord(final String roleName){
         final String deleteStmt = "DELETE FROM richard.roles WHERE ROLE = ?";
         try{
             PreparedStatement pstmt = getConnection().prepareStatement(deleteStmt);

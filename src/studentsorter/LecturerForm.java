@@ -8,6 +8,7 @@ package studentsorter;
 import connection.classesConnection;
 import connection.rolesConnection;
 import connection.skillsConnection;
+import connection.studentConnection;
 import javax.swing.JOptionPane;
 import java.sql.*;
 
@@ -16,6 +17,7 @@ import java.sql.*;
  * @author rwals
  */
 public class LecturerForm extends javax.swing.JFrame {
+    studentConnection sc = new studentConnection("SSDB");
     skillsConnection skc = new skillsConnection("SSDB");
     classesConnection cc = new classesConnection("SSDB");
     rolesConnection rc = new rolesConnection("SSDB");
@@ -28,6 +30,7 @@ public class LecturerForm extends javax.swing.JFrame {
         addSkillsToList();
         addClassesToList();
         addRolesToList();
+        JOptionPane.showMessageDialog(null, "Welcome");
     }
 
     private void addSkillsToList(){
@@ -118,9 +121,12 @@ public class LecturerForm extends javax.swing.JFrame {
         jScrollPane6 = new javax.swing.JScrollPane();
         rTxtArea = new javax.swing.JTextArea();
         jLabel9 = new javax.swing.JLabel();
-        txtSDelete = new javax.swing.JTextField();
         txtCDelete = new javax.swing.JTextField();
         txtRDelete = new javax.swing.JTextField();
+        jLabel10 = new javax.swing.JLabel();
+        jLabel11 = new javax.swing.JLabel();
+        txtSDelete = new javax.swing.JTextField();
+        jLabel12 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -172,11 +178,6 @@ public class LecturerForm extends javax.swing.JFrame {
         jLabel6.setText("Roles");
 
         btnRDelete.setText("Delete");
-        btnRDelete.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnRDeleteActionPerformed(evt);
-            }
-        });
 
         jLabel7.setText("Role:");
 
@@ -209,6 +210,12 @@ public class LecturerForm extends javax.swing.JFrame {
 
         jLabel9.setText("Reload the page to see any changes to the lists");
 
+        jLabel10.setText("Class:");
+
+        jLabel11.setText("Role:");
+
+        jLabel12.setText("First Name:");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -220,26 +227,27 @@ public class LecturerForm extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jLabel2)
-                                        .addGap(142, 142, 142))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                            .addComponent(btnSDelete, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addComponent(txtSDelete))
-                                        .addGap(30, 30, 30)))
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 134, Short.MAX_VALUE)
-                                    .addComponent(jLabel4)
-                                    .addComponent(txtCDelete)
-                                    .addComponent(btnCDelete, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel2)
+                                    .addComponent(jLabel12)
+                                    .addComponent(txtSDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(btnSDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(30, 30, 30)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 134, Short.MAX_VALUE)
+                                        .addComponent(jLabel4)
+                                        .addComponent(txtCDelete)
+                                        .addComponent(btnCDelete, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                    .addComponent(jLabel10))
                                 .addGap(28, 28, 28)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 134, Short.MAX_VALUE)
-                                    .addComponent(jLabel6)
-                                    .addComponent(txtRDelete)
-                                    .addComponent(btnRDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel11)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 134, Short.MAX_VALUE)
+                                        .addComponent(jLabel6)
+                                        .addComponent(txtRDelete)
+                                        .addComponent(btnRDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE))))))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -271,7 +279,7 @@ public class LecturerForm extends javax.swing.JFrame {
                                             .addComponent(jLabel7)
                                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                             .addComponent(txtRole, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE))))))))
-                .addContainerGap(56, Short.MAX_VALUE))
+                .addContainerGap(49, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -288,17 +296,22 @@ public class LecturerForm extends javax.swing.JFrame {
                     .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE)
                     .addComponent(jScrollPane5, javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane6, javax.swing.GroupLayout.Alignment.LEADING))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtSDelete, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel10)
+                    .addComponent(jLabel11)
+                    .addComponent(jLabel12))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtCDelete, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtRDelete, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtRDelete, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtSDelete, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(14, 14, 14)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnCDelete)
                     .addComponent(btnRDelete)
                     .addComponent(btnSDelete))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 82, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel8, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel9, javax.swing.GroupLayout.Alignment.TRAILING))
@@ -320,7 +333,7 @@ public class LecturerForm extends javax.swing.JFrame {
                             .addComponent(txtRole, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addComponent(btnRAdd)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 104, Short.MAX_VALUE)
+                .addGap(29, 29, 29)
                 .addComponent(btnBack)
                 .addContainerGap())
         );
@@ -384,7 +397,27 @@ public class LecturerForm extends javax.swing.JFrame {
     }//GEN-LAST:event_btnRAddActionPerformed
 
     private void btnSDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSDeleteActionPerformed
-        // TODO add your handling code here:
+        try{
+            final String retrieveQuery = "SELECT SKILL from richard.skills";
+            skc.setQuery(retrieveQuery);
+            skc.runQuery();
+            ResultSet output = skc.getResultSet();
+            String skill = txtSDelete.getText();
+            if(null != output){
+                while(output.next()){
+                    String s = output.getString("SKILL");
+                    if(skill.equals(s)){
+                        skc.deleteRecord(skill);
+                        skc.closeConnection();
+                        JOptionPane.showMessageDialog(null, "Skill deleted");
+                    }else{
+                        JOptionPane.showMessageDialog(null, "Skill does not exist in the database");
+                    }
+                }
+            }
+        }catch(SQLException sqle){
+            System.err.println("Error deleting skill from the database: " + sqle.toString());
+        }
     }//GEN-LAST:event_btnSDeleteActionPerformed
 
     private void btnCDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCDeleteActionPerformed
@@ -410,10 +443,6 @@ public class LecturerForm extends javax.swing.JFrame {
             System.err.println("Error deleting class from the database: " + sqle.toString());
         }
     }//GEN-LAST:event_btnCDeleteActionPerformed
-
-    private void btnRDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRDeleteActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnRDeleteActionPerformed
 
     /**
      * @param args the command line arguments
@@ -460,6 +489,9 @@ public class LecturerForm extends javax.swing.JFrame {
     private javax.swing.JButton btnSDelete;
     private javax.swing.JTextArea cTxtArea;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
