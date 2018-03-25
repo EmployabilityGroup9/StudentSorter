@@ -44,15 +44,4 @@ public class studentConnection extends DBConnection {
             System.err.println("Exception when deleting student from the database: " + sqle.toString());
         }
     }
-    
-    public void findSkill(final String skillName){
-        final String retrieveSkills = "SELECT FIRSTNAME from richard.students WHERE STRONGROLE = ?";
-        try{
-            PreparedStatement pstmt = getConnection().prepareStatement(retrieveSkills);
-            pstmt.setString(5, skillName);
-            pstmt.executeQuery();
-        }catch(SQLException sqle){
-            System.err.println("Exception retrieving skills from database: " + sqle.toString());
-        }
-    }
 }

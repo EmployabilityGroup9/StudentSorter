@@ -10,6 +10,7 @@ import connection.rolesConnection;
 import connection.skillsConnection;
 import connection.studentConnection;
 import java.sql.*;
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -28,6 +29,9 @@ public class StudentSorter extends javax.swing.JFrame {
     private int row;
     private int col;
     
+    ArrayList<ArrayList<String>> tmo = new ArrayList();
+    ArrayList<String> tmi = new ArrayList();
+    
     /**
      * Creates new form StudentSorter
      */
@@ -36,7 +40,8 @@ public class StudentSorter extends javax.swing.JFrame {
         addTable();
         addToCDropBox();
         addToRDropBox();
-        getGroups();
+        getRoles();
+        //sortGroups();
         //test("Programming");
     }
 
@@ -218,19 +223,28 @@ public class StudentSorter extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void getGroups(){
-        System.out.println("Group: pRole - fName - sName - cName - sRole");
+    /*
+        Gets each of the roles from the prefRoles dropbox and runs the
+        splitStudents method using the role name and the parameter
+    */
+    private void getRoles(){
+        //System.out.println("Group: pRole - fName - sName - cName - sRole");
         for(int i=0;i<rolesComboBox.getItemCount();i++){
             String skill = rolesComboBox.getItemAt(i);
             splitStudents(skill);
         }
     }
     
+    /*
+        Will take a role from the dropbox and put the students with that
+        role into an array
+    */
     private void splitStudents(final String skillName){
         final String retrieveQuery = "SELECT * from richard.students";
         sc.setQuery(retrieveQuery);
         sc.runQuery();
         ResultSet output = sc.getResultSet();
+        dataLists data = new dataLists();
         try{
             if(null != output){
                 while(output.next()){
@@ -239,16 +253,29 @@ public class StudentSorter extends javax.swing.JFrame {
                     String cName = output.getString(3);
                     String pRole = output.getString(4);
                     String sRole = output.getString(5);
+                    
                     if(skillName.equals(pRole)){
-                        System.out.println("Group: " + pRole + " - " + fName + " - " + sName + " - " + cName + " - " + sRole);
-                    }
+                        System.out.println(pRole + " - " + fName);
+                        tmi.add(fName + " " + sName);
+                        //System.out.println(tmo);
+                    }     
                 }
             }
         }catch(SQLException sqle){
             System.err.println("Error retrieving students from database: " + sqle.toString());
         }
+        data.setDataList(tmi);
+        tmo.add(data.getDataList());
+        
+        tmi.clear();
+        System.out.println(tmo);
     }
     
+    
+    
+    /*
+        Adds student to the database
+    */
     private void btnSubmitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSubmitActionPerformed
         getRatings();
         row = jTable1.getSelectedRow();
@@ -271,6 +298,9 @@ public class StudentSorter extends javax.swing.JFrame {
         System.out.println("Strongest Role: " + sRole);
     }//GEN-LAST:event_btnSubmitActionPerformed
 
+    /*
+        Creates a skills table to the user to enter in ratings
+    */
     private void addTable(){
         final String retrieveQuery = "SELECT * from richard.skills";
         skc.setQuery(retrieveQuery);
@@ -297,6 +327,10 @@ public class StudentSorter extends javax.swing.JFrame {
         }
     }
     
+    /*
+        Gets the ratings of each of the skills entered and will pick
+        the skill that was given a 5
+    */
     private void getRatings(){
         int rating = 0;
         for(int i=0;i<jTable1.getRowCount();i++){
