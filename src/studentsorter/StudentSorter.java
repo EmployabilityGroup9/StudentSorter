@@ -31,6 +31,8 @@ public class StudentSorter extends javax.swing.JFrame {
     
     ArrayList<ArrayList<String>> tmo = new ArrayList();
     ArrayList<String> tmi = new ArrayList();
+    ArrayList<ArrayList<String>> flo = new ArrayList();
+    ArrayList<String> fli = new ArrayList();
     
     /**
      * Creates new form StudentSorter
@@ -245,6 +247,7 @@ public class StudentSorter extends javax.swing.JFrame {
         sc.runQuery();
         ResultSet output = sc.getResultSet();
         dataLists data = new dataLists();
+        int index=-1;
         try{
             if(null != output){
                 while(output.next()){
@@ -255,10 +258,11 @@ public class StudentSorter extends javax.swing.JFrame {
                     String sRole = output.getString(5);
                     
                     if(skillName.equals(pRole)){
+                        index++;
                         System.out.println(pRole + " - " + fName);
                         tmi.add(fName + " " + sName);
                         //System.out.println(tmo);
-                    }     
+                    }
                 }
             }
         }catch(SQLException sqle){
@@ -266,12 +270,23 @@ public class StudentSorter extends javax.swing.JFrame {
         }
         data.setDataList(tmi);
         tmo.add(data.getDataList());
-        
+        for(int i=0;i<3;i++){
+            
+        }
+        String value = tmi.get(0);
+        fli.add(value);
+        data.setDataList(fli);
+        flo.add(data.getDataList());
         tmi.clear();
-        System.out.println(tmo);
+        System.out.println(fli);
     }
     
-    
+    private void sortGroup(){
+        for(int i=0;i<tmo.size();i++){
+            String value = tmi.get(0);
+            fli.add(value);
+        }
+    }
     
     /*
         Adds student to the database
