@@ -259,7 +259,7 @@ public class StudentSorter extends javax.swing.JFrame {
                     
                     if(skillName.equals(pRole)){
                         index++;
-                        System.out.println(pRole + " - " + fName);
+                        System.out.println(pRole + " - " + fName + " - " + sName);
                         tmi.add(fName + " " + sName);
                         //System.out.println(tmo);
                     }
