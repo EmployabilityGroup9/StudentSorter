@@ -273,7 +273,7 @@ public class StudentSorter extends javax.swing.JFrame {
         for(int i=0;i<3;i++){
             
         }
-        String value = tmi.get(0);
+        String value = tmi.get(index);
         fli.add(value);
         data.setDataList(fli);
         flo.add(data.getDataList());
