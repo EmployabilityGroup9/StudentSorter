@@ -164,6 +164,7 @@ public class LecturerForm extends javax.swing.JFrame {
         jLabel11 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         sList = new javax.swing.JList<>();
+        btnSortGroups = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -252,6 +253,13 @@ public class LecturerForm extends javax.swing.JFrame {
 
         jScrollPane1.setViewportView(sList);
 
+        btnSortGroups.setText("Sort Groups");
+        btnSortGroups.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSortGroupsActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -294,16 +302,18 @@ public class LecturerForm extends javax.swing.JFrame {
                                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                         .addComponent(btnCAdd)
                                         .addGroup(layout.createSequentialGroup()
-                                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                                .addComponent(btnSAdd)
-                                                .addGroup(layout.createSequentialGroup()
-                                                    .addComponent(jLabel3)
-                                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                                    .addComponent(txtSkill, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                            .addComponent(btnSAdd)
                                             .addGap(18, 18, 18)
                                             .addComponent(jLabel5)
                                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                            .addComponent(txtClass, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                            .addComponent(txtClass, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGroup(layout.createSequentialGroup()
+                                            .addComponent(jLabel3)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                .addComponent(txtSkill, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(btnSortGroups, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 155, Short.MAX_VALUE)))
                                     .addGap(18, 18, 18)
                                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                         .addComponent(btnRAdd)
@@ -329,7 +339,7 @@ public class LecturerForm extends javax.swing.JFrame {
                         .addComponent(jScrollPane5, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE)
                         .addComponent(jScrollPane6, javax.swing.GroupLayout.Alignment.LEADING))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel10)
                     .addComponent(jLabel11))
@@ -342,7 +352,7 @@ public class LecturerForm extends javax.swing.JFrame {
                     .addComponent(btnCDelete)
                     .addComponent(btnRDelete)
                     .addComponent(btnSDelete))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 82, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel8, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel9, javax.swing.GroupLayout.Alignment.TRAILING))
@@ -364,7 +374,9 @@ public class LecturerForm extends javax.swing.JFrame {
                             .addComponent(txtRole, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addComponent(btnRAdd)))
-                .addGap(29, 29, 29)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 50, Short.MAX_VALUE)
+                .addComponent(btnSortGroups, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(31, 31, 31)
                 .addComponent(btnBack)
                 .addContainerGap())
         );
@@ -503,6 +515,12 @@ public class LecturerForm extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnRDeleteActionPerformed
 
+    private void btnSortGroupsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSortGroupsActionPerformed
+        StudentSorter ss = new StudentSorter();
+        
+        ss.splitStudents();
+    }//GEN-LAST:event_btnSortGroupsActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -546,6 +564,7 @@ public class LecturerForm extends javax.swing.JFrame {
     private javax.swing.JButton btnRDelete;
     private javax.swing.JButton btnSAdd;
     private javax.swing.JButton btnSDelete;
+    private javax.swing.JButton btnSortGroups;
     private javax.swing.JTextArea cTxtArea;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;

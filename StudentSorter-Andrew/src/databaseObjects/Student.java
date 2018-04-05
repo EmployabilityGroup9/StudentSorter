@@ -20,6 +20,14 @@ public class Student {
         this.strongRole = strongRole;
     }
     
+    public String getStudentClass(){
+        return this.myClass;
+    }
+    
+    public String getStrongRole(){
+        return this.strongRole;
+    }
+    
     public String getPreferredRole() {
         return this.preferredRole;
     }
