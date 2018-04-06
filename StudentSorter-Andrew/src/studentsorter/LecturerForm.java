@@ -9,8 +9,11 @@ import connection.classesConnection;
 import connection.rolesConnection;
 import connection.skillsConnection;
 import connection.studentConnection;
+import java.io.IOException;
 import javax.swing.JOptionPane;
 import java.sql.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 
 /**
@@ -34,6 +37,9 @@ public class LecturerForm extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(null, "Welcome");
     }
 
+    /**
+     * Adds the skills to the list
+     */
     private void addSkillsToList(){
         final String retrieveQuery = "SELECT SKILL from richard.skills";
         skc.setQuery(retrieveQuery);
@@ -47,7 +53,6 @@ public class LecturerForm extends javax.swing.JFrame {
             if(null != output){
                 while(output.next()){
                     String skill = output.getString(1);
-                    
                     addListItem(sList, skill); // added by Andrew
                 }
             }
@@ -56,6 +61,9 @@ public class LecturerForm extends javax.swing.JFrame {
         }
     }
     
+    /**
+     * Adds the classes the list
+     */
     private void addClassesToList(){
         final String retrieveQuery = "SELECT CLASSNAME from richard.classes";
         cc.setQuery(retrieveQuery);
@@ -74,6 +82,9 @@ public class LecturerForm extends javax.swing.JFrame {
         }
     }
     
+    /**
+     * Adds the roles to the list
+     */
     private void addRolesToList(){
         final String retrieveQuery = "SELECT ROLE from richard.roles";
         rc.setQuery(retrieveQuery);
@@ -164,6 +175,9 @@ public class LecturerForm extends javax.swing.JFrame {
         jLabel11 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         sList = new javax.swing.JList<>();
+        btnSortGroups = new javax.swing.JButton();
+        jLabel12 = new javax.swing.JLabel();
+        jLabel13 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -252,6 +266,17 @@ public class LecturerForm extends javax.swing.JFrame {
 
         jScrollPane1.setViewportView(sList);
 
+        btnSortGroups.setText("Sort Groups");
+        btnSortGroups.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSortGroupsActionPerformed(evt);
+            }
+        });
+
+        jLabel12.setText("Groups are written to a text file so that it can be printed off");
+
+        jLabel13.setText("Students are grouped primarily by Preferred Role");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -262,8 +287,8 @@ public class LecturerForm extends javax.swing.JFrame {
                         .addGap(38, 38, 38)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jLabel2)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                            .addComponent(btnSDelete, javax.swing.GroupLayout.DEFAULT_SIZE, 134, Short.MAX_VALUE))
+                            .addComponent(btnSDelete, javax.swing.GroupLayout.DEFAULT_SIZE, 134, Short.MAX_VALUE)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                         .addGap(28, 28, 28)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -284,7 +309,10 @@ public class LecturerForm extends javax.swing.JFrame {
                         .addContainerGap()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(btnBack)
-                            .addComponent(jLabel1)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel1)
+                                .addGap(77, 77, 77)
+                                .addComponent(jLabel13))
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                 .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                                     .addComponent(jLabel8)
@@ -294,30 +322,39 @@ public class LecturerForm extends javax.swing.JFrame {
                                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                         .addComponent(btnCAdd)
                                         .addGroup(layout.createSequentialGroup()
-                                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                                .addComponent(btnSAdd)
-                                                .addGroup(layout.createSequentialGroup()
-                                                    .addComponent(jLabel3)
-                                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                                    .addComponent(txtSkill, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                            .addComponent(btnSAdd)
                                             .addGap(18, 18, 18)
                                             .addComponent(jLabel5)
                                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                            .addComponent(txtClass, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                            .addComponent(txtClass, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGroup(layout.createSequentialGroup()
+                                            .addComponent(jLabel3)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                            .addComponent(txtSkill, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 172, Short.MAX_VALUE)))
                                     .addGap(18, 18, 18)
                                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                         .addComponent(btnRAdd)
                                         .addGroup(layout.createSequentialGroup()
                                             .addComponent(jLabel7)
                                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                            .addComponent(txtRole, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE))))))))
+                                            .addComponent(txtRole, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)))))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(10, 10, 10)
+                                .addComponent(btnSortGroups, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jLabel12))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel13))
                 .addGap(7, 7, 7)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
@@ -329,7 +366,7 @@ public class LecturerForm extends javax.swing.JFrame {
                         .addComponent(jScrollPane5, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE)
                         .addComponent(jScrollPane6, javax.swing.GroupLayout.Alignment.LEADING))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 23, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel10)
                     .addComponent(jLabel11))
@@ -342,7 +379,7 @@ public class LecturerForm extends javax.swing.JFrame {
                     .addComponent(btnCDelete)
                     .addComponent(btnRDelete)
                     .addComponent(btnSDelete))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 82, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel8, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel9, javax.swing.GroupLayout.Alignment.TRAILING))
@@ -364,7 +401,11 @@ public class LecturerForm extends javax.swing.JFrame {
                             .addComponent(txtRole, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addComponent(btnRAdd)))
-                .addGap(29, 29, 29)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
+                .addComponent(jLabel12)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnSortGroups, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnBack)
                 .addContainerGap())
         );
@@ -372,6 +413,10 @@ public class LecturerForm extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * Add a skill to the skills database
+     * @param evt 
+     */
     private void btnSAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSAddActionPerformed
         String skillName = txtSkill.getText();
         boolean r1 = false;
@@ -400,6 +445,10 @@ public class LecturerForm extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_btnBackActionPerformed
 
+    /**
+     * Adds class to the database
+     * @param evt 
+     */
     private void btnCAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCAddActionPerformed
         String className = txtClass.getText();
         if(!txtClass.getText().equals("")){
@@ -455,6 +504,10 @@ public class LecturerForm extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnSDeleteActionPerformed
 
+    /**
+     * Deletes class from the database
+     * @param evt 
+     */
     private void btnCDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCDeleteActionPerformed
         try{
             final String retrieveQuery = "SELECT CLASSNAME from richard.classes";
@@ -503,6 +556,16 @@ public class LecturerForm extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnRDeleteActionPerformed
 
+    private void btnSortGroupsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSortGroupsActionPerformed
+        StudentSorter ss = new StudentSorter();
+        
+        try {
+            ss.splitStudents();
+        } catch (IOException err) {
+            System.out.println("Error sorting student into groups: " + err.toString());
+        }
+    }//GEN-LAST:event_btnSortGroupsActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -546,10 +609,13 @@ public class LecturerForm extends javax.swing.JFrame {
     private javax.swing.JButton btnRDelete;
     private javax.swing.JButton btnSAdd;
     private javax.swing.JButton btnSDelete;
+    private javax.swing.JButton btnSortGroups;
     private javax.swing.JTextArea cTxtArea;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
