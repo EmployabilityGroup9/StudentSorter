@@ -223,7 +223,11 @@ public class StudentSorter extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
     
     /*
+<<<<<<< HEAD
         Sorts students into groups and writes them to the console and file
+=======
+        Sorts students into groups and writes them to the console
+>>>>>>> f6cd61b63749f2f4ebadb7f1a33658cb0083ed03
     */
     public void splitStudents() throws IOException{ // modified by Andrew
        

@@ -176,8 +176,11 @@ public class LecturerForm extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         sList = new javax.swing.JList<>();
         btnSortGroups = new javax.swing.JButton();
+<<<<<<< HEAD
         jLabel12 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
+=======
+>>>>>>> f6cd61b63749f2f4ebadb7f1a33658cb0083ed03
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -273,10 +276,13 @@ public class LecturerForm extends javax.swing.JFrame {
             }
         });
 
+<<<<<<< HEAD
         jLabel12.setText("Groups are written to a text file so that it can be printed off");
 
         jLabel13.setText("Students are grouped primarily by Preferred Role");
 
+=======
+>>>>>>> f6cd61b63749f2f4ebadb7f1a33658cb0083ed03
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -330,8 +336,15 @@ public class LecturerForm extends javax.swing.JFrame {
                                         .addGroup(layout.createSequentialGroup()
                                             .addComponent(jLabel3)
                                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+<<<<<<< HEAD
                                             .addComponent(txtSkill, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 172, Short.MAX_VALUE)))
+=======
+                                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                .addComponent(txtSkill, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(btnSortGroups, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 155, Short.MAX_VALUE)))
+>>>>>>> f6cd61b63749f2f4ebadb7f1a33658cb0083ed03
                                     .addGap(18, 18, 18)
                                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                         .addComponent(btnRAdd)
@@ -366,7 +379,11 @@ public class LecturerForm extends javax.swing.JFrame {
                         .addComponent(jScrollPane5, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE)
                         .addComponent(jScrollPane6, javax.swing.GroupLayout.Alignment.LEADING))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+<<<<<<< HEAD
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 23, Short.MAX_VALUE)
+=======
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
+>>>>>>> f6cd61b63749f2f4ebadb7f1a33658cb0083ed03
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel10)
                     .addComponent(jLabel11))
@@ -401,11 +418,17 @@ public class LecturerForm extends javax.swing.JFrame {
                             .addComponent(txtRole, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addComponent(btnRAdd)))
+<<<<<<< HEAD
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
                 .addComponent(jLabel12)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnSortGroups, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+=======
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 50, Short.MAX_VALUE)
+                .addComponent(btnSortGroups, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(31, 31, 31)
+>>>>>>> f6cd61b63749f2f4ebadb7f1a33658cb0083ed03
                 .addComponent(btnBack)
                 .addContainerGap())
         );
@@ -559,11 +582,15 @@ public class LecturerForm extends javax.swing.JFrame {
     private void btnSortGroupsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSortGroupsActionPerformed
         StudentSorter ss = new StudentSorter();
         
+<<<<<<< HEAD
         try {
             ss.splitStudents();
         } catch (IOException err) {
             System.out.println("Error sorting student into groups: " + err.toString());
         }
+=======
+        ss.splitStudents();
+>>>>>>> f6cd61b63749f2f4ebadb7f1a33658cb0083ed03
     }//GEN-LAST:event_btnSortGroupsActionPerformed
 
     /**
