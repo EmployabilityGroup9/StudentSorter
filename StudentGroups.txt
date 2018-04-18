@@ -1,0 +1,40 @@
+----------See Group 1 Below-----------
+Tim Grant : Project Manager : SU100 : Team Management
+Andrew Gidney : Business Analyst : SU100 : Document Writing
+Paul Clarke : Designer : SU100 : Designing
+Richard Walsh : Developer : SU100 : Programming
+Jose Jardim : Tester : SU100 : Document Writing
+Lorna Hopper : Test : SU100 : Programming
+----------See Group 2 Below-----------
+Ross Melling : Project Manager : SU101 : Team Management
+Tom Cull : Business Analyst : SU101 : Planning
+James Bolton : Designer : SU101 : Designing
+Nicole Bacon : Tester : SU101 : Document Writing
+Jeff Johnson : Developer : SU101 : Programming
+Fred Johnson : Test : SU101 : Team Management
+----------See Group 3 Below-----------
+Dave Savage : Project Manager : SU102 : Team Management
+Tom Lowe : Business Analyst : SU102 : Planning
+Mark Bradshaw : Designer : SU102 : Designing
+Callum Pegler : Developer : SU102 : Programming
+John Tsang : Tester : SU102 : Document Writing
+Empty space
+----------See Group 4 Below-----------
+Gary James : Project Manager : SU100 : Planning
+Tom Smith : Business Analyst : SU100 : Team Management
+Kim Jones : Designer : SU100 : Document Writing
+Tim Barnes : Developer : SU100 : Designing
+Graham Everett : Tester : SU100 : Designing
+Empty space
+----------See Group 5 Below-----------
+Empty space
+----------See Group 6 Below-----------
+Empty space
+----------See Group 7 Below-----------
+Empty space
+----------See Group 8 Below-----------
+Empty space
+----------See Group 9 Below-----------
+Empty space
+----------See Group 10 Below-----------
+Empty space

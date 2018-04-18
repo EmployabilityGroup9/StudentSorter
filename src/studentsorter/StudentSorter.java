@@ -9,6 +9,10 @@ import connection.classesConnection;
 import connection.rolesConnection;
 import connection.skillsConnection;
 import connection.studentConnection;
+import databaseObjects.Student; // added by Andrew
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
@@ -29,11 +33,6 @@ public class StudentSorter extends javax.swing.JFrame {
     private int row;
     private int col;
     
-    ArrayList<ArrayList<String>> tmo = new ArrayList();
-    ArrayList<String> tmi = new ArrayList();
-    ArrayList<ArrayList<String>> flo = new ArrayList();
-    ArrayList<String> fli = new ArrayList();
-    
     /**
      * Creates new form StudentSorter
      */
@@ -42,9 +41,6 @@ public class StudentSorter extends javax.swing.JFrame {
         addTable();
         addToCDropBox();
         addToRDropBox();
-        getRoles();
-        //sortGroups();
-        //test("Programming");
     }
 
     /**
@@ -208,8 +204,8 @@ public class StudentSorter extends javax.swing.JFrame {
                     .addComponent(jLabel5)
                     .addComponent(rolesComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(29, 29, 29)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel6))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -224,68 +220,241 @@ public class StudentSorter extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    /*
-        Gets each of the roles from the prefRoles dropbox and runs the
-        splitStudents method using the role name and the parameter
-    */
-    private void getRoles(){
-        //System.out.println("Group: pRole - fName - sName - cName - sRole");
-        for(int i=0;i<rolesComboBox.getItemCount();i++){
-            String skill = rolesComboBox.getItemAt(i);
-            splitStudents(skill);
-        }
-    }
     
     /*
-        Will take a role from the dropbox and put the students with that
-        role into an array
+        Sorts students into groups and writes them to the console and file
     */
-    private void splitStudents(final String skillName){
+    public void splitStudents() throws IOException{ // modified by Andrew
+       
+        FileWriter fw = new FileWriter("StudentGroups.txt");
+        BufferedWriter bw = new BufferedWriter(fw);
         final String retrieveQuery = "SELECT * from richard.students";
         sc.setQuery(retrieveQuery);
         sc.runQuery();
-        ResultSet output = sc.getResultSet();
-        dataLists data = new dataLists();
-        int index=-1;
-        try{
-            if(null != output){
-                while(output.next()){
-                    String fName = output.getString(1);
-                    String sName = output.getString(2);
-                    String cName = output.getString(3);
-                    String pRole = output.getString(4);
-                    String sRole = output.getString(5);
+        ResultSet studentList = sc.getResultSet();
+        
+        Student[][] groups = new Student[6][10]; // array used to store groups. CURRENTLY SET TO MAX SIZE OF 10 TEAMS OF 6 MEMBERS EACH
+        ArrayList<Student> ungroupedStudents = new ArrayList(); // list used to store students waiting to be assigned a group
+        
+        Student currentStudent; // holds the information of the current student
+        
+        // put all students into ungroupedStudents array
+        try {
+            if(null != studentList) {
+                while(studentList.next()) {
+
+                    currentStudent = new Student(studentList.getString(1), studentList.getString(2), studentList.getString(3), studentList.getString(4), studentList.getString(5));
+            
+                    ungroupedStudents.add(currentStudent);            
+                }
+            }
+        } catch (SQLException sqle){
+            System.err.println("Error retrieving students from database: " + sqle.toString());
+        }
+           
+        // puts ungrouped students into group based on role
+        for (int i = 0; i < ungroupedStudents.size(); i++) {
+
+            currentStudent = ungroupedStudents.get(i);
+            
+            // ensure position is not empty
+            if (currentStudent != null) {
+                
+                rowloop:
+                for (int j = 0; j < groups[0].length; j++) { // iterate through all groups
                     
-                    if(skillName.equals(pRole)){
-                        index++;
-                        System.out.println(pRole + " - " + fName + " - " + sName);
-                        tmi.add(fName + " " + sName);
-                        //System.out.println(tmo);
+                    for (int k = 0; k < groups.length; k++) { // iterate through all members in a group
+                        
+                        if (groups[k][j] == null ) { // fill slot if position is empty
+                            groups[k][j] = currentStudent; // add new student to group
+                            ungroupedStudents.set(i, null); // remove student from ungrouped list
+                            break rowloop;
+                            
+                        } else if (groups[k][j].getPreferredRole().equals(currentStudent.getPreferredRole())) { // compare member roles
+                            break; // break out of group if roles are same
+                        } else if (!groups[k][j].getStudentClass().equals(currentStudent.getStudentClass())){
+                            break; //break out of group if the classes are not the same
+                        }
                     }
                 }
             }
-        }catch(SQLException sqle){
-            System.err.println("Error retrieving students from database: " + sqle.toString());
         }
-        data.setDataList(tmi);
-        tmo.add(data.getDataList());
-        for(int i=0;i<3;i++){
-            
+        
+        /*
+        BELOW IS FOR TESTING PURPOSES ONLY-----------------------------------------------
+        */
+        System.out.println("----------See Group 1 Below-----------");
+        bw.write("----------See Group 1 Below-----------");
+        bw.newLine();
+        for (int i = 0; i < groups.length; i++) {
+
+            if (groups[i][0] == null) {
+                System.out.println("Empty space");
+                bw.write("Empty space");
+                bw.newLine();
+                break;
+            }
+
+            System.out.println(groups[i][0].getFirstName() + " " + groups[i][0].getSurName() + " : " + groups[i][0].getPreferredRole() + " : " + groups[i][0].getStudentClass() + " : " + groups[i][0].getStrongRole());
+            bw.write(groups[i][0].getFirstName() + " " + groups[i][0].getSurName() + " : " + groups[i][0].getPreferredRole() + " : " + groups[i][0].getStudentClass() + " : " + groups[i][0].getStrongRole());
+            bw.newLine();
         }
-        String value = tmi.get(index);
-        fli.add(value);
-        data.setDataList(fli);
-        flo.add(data.getDataList());
-        tmi.clear();
-        System.out.println(fli);
-    }
+
+        System.out.println("----------See Group 2 Below-----------");
+        bw.write("----------See Group 2 Below-----------");
+        bw.newLine();
+        for (int i = 0; i < groups.length; i++) {
+
+            if (groups[i][1] == null) {
+                System.out.println("Empty space");
+                bw.write("Empty space");
+                bw.newLine();
+                break;
+            }
+
+            System.out.println(groups[i][1].getFirstName() + " " + groups[i][1].getSurName() + " : " + groups[i][1].getPreferredRole() + " : " + groups[i][1].getStudentClass() + " : " + groups[i][1].getStrongRole());
+            bw.write(groups[i][1].getFirstName() + " " + groups[i][1].getSurName() + " : " + groups[i][1].getPreferredRole() + " : " + groups[i][1].getStudentClass() + " : " + groups[i][1].getStrongRole());
+            bw.newLine();
+        }
+        
+        System.out.println("----------See Group 3 Below-----------");
+        bw.write("----------See Group 3 Below-----------");
+        bw.newLine();
+        for (int i = 0; i < groups.length; i++) {
+
+            if (groups[i][2] == null) {
+                System.out.println("Empty space");
+                bw.write("Empty space");
+                bw.newLine();
+                break;
+            }
+
+            System.out.println(groups[i][2].getFirstName() + " " + groups[i][2].getSurName() + " : " + groups[i][2].getPreferredRole() + " : " + groups[i][2].getStudentClass() + " : " + groups[i][2].getStrongRole());
+            bw.write(groups[i][2].getFirstName() + " " + groups[i][2].getSurName() + " : " + groups[i][2].getPreferredRole() + " : " + groups[i][2].getStudentClass() + " : " + groups[i][2].getStrongRole());
+            bw.newLine();
+        }
     
-    private void sortGroup(){
-        for(int i=0;i<tmo.size();i++){
-            String value = tmi.get(0);
-            fli.add(value);
+        System.out.println("----------See Group 4 Below-----------");
+        bw.write("----------See Group 4 Below-----------");
+        bw.newLine();
+        for (int i = 0; i < groups.length; i++) {
+
+            if (groups[i][3] == null) {
+                System.out.println("Empty space");
+                bw.write("Empty space");
+                bw.newLine();
+                break;
+            }
+
+            System.out.println(groups[i][3].getFirstName() + " " + groups[i][3].getSurName() + " : " + groups[i][3].getPreferredRole() + " : " + groups[i][3].getStudentClass() + " : " + groups[i][3].getStrongRole());
+            bw.write(groups[i][3].getFirstName() + " " + groups[i][3].getSurName() + " : " + groups[i][3].getPreferredRole() + " : " + groups[i][3].getStudentClass() + " : " + groups[i][3].getStrongRole());
+            bw.newLine();
         }
+        
+        System.out.println("----------See Group 5 Below-----------");
+        bw.write("----------See Group 5 Below-----------");
+        bw.newLine();
+        for (int i = 0; i < groups.length; i++) {
+
+            if (groups[i][4] == null) {
+                System.out.println("Empty space");
+                bw.write("Empty space");
+                bw.newLine();
+                break;
+            }
+
+            System.out.println(groups[i][4].getFirstName() + " " + groups[i][4].getSurName() + " : " + groups[i][4].getPreferredRole() + " : " + groups[i][4].getStudentClass() + " : " + groups[i][4].getStrongRole());
+            bw.write(groups[i][4].getFirstName() + " " + groups[i][4].getSurName() + " : " + groups[i][4].getPreferredRole() + " : " + groups[i][4].getStudentClass() + " : " + groups[i][4].getStrongRole());
+            bw.newLine();
+        }
+        
+        System.out.println("----------See Group 6 Below-----------");
+        bw.write("----------See Group 6 Below-----------");
+        bw.newLine();
+        for (int i = 0; i < groups.length; i++) {
+
+            if (groups[i][5] == null) {
+                System.out.println("Empty space");
+                bw.write("Empty space");
+                bw.newLine();
+                break;
+            }
+
+            System.out.println(groups[i][5].getFirstName() + " " + groups[i][5].getSurName() + " : " + groups[i][5].getPreferredRole() + " : " + groups[i][5].getStudentClass() + " : " + groups[i][5].getStrongRole());
+            bw.write(groups[i][5].getFirstName() + " " + groups[i][5].getSurName() + " : " + groups[i][5].getPreferredRole() + " : " + groups[i][5].getStudentClass() + " : " + groups[i][5].getStrongRole());
+            bw.newLine();
+        }
+        
+        System.out.println("----------See Group 7 Below-----------");
+        bw.write("----------See Group 7 Below-----------");
+        bw.newLine();
+        for (int i = 0; i < groups.length; i++) {
+
+            if (groups[i][6] == null) {
+                System.out.println("Empty space");
+                bw.write("Empty space");
+                bw.newLine();
+                break;
+            }
+
+            System.out.println(groups[i][6].getFirstName() + " " + groups[i][6].getSurName() + " : " + groups[i][6].getPreferredRole() + " : " + groups[i][6].getStudentClass() + " : " + groups[i][6].getStrongRole());
+            bw.write(groups[i][6].getFirstName() + " " + groups[i][6].getSurName() + " : " + groups[i][6].getPreferredRole() + " : " + groups[i][6].getStudentClass() + " : " + groups[i][6].getStrongRole());
+            bw.newLine();
+        }
+        
+        System.out.println("----------See Group 8 Below-----------");
+        bw.write("----------See Group 8 Below-----------");
+        bw.newLine();
+        for (int i = 0; i < groups.length; i++) {
+
+            if (groups[i][7] == null) {
+                System.out.println("Empty space");
+                bw.write("Empty space");
+                bw.newLine();
+                break;
+            }
+
+            System.out.println(groups[i][7].getFirstName() + " " + groups[i][7].getSurName() + " : " + groups[i][7].getPreferredRole() + " : " + groups[i][7].getStudentClass() + " : " + groups[i][7].getStrongRole());
+            bw.write(groups[i][7].getFirstName() + " " + groups[i][7].getSurName() + " : " + groups[i][7].getPreferredRole() + " : " + groups[i][7].getStudentClass() + " : " + groups[i][7].getStrongRole());
+            bw.newLine();
+        }
+        
+        System.out.println("----------See Group 9 Below-----------");
+        bw.write("----------See Group 9 Below-----------");
+        bw.newLine();
+        for (int i = 0; i < groups.length; i++) {
+
+            if (groups[i][8] == null) {
+                System.out.println("Empty space");
+                bw.write("Empty space");
+                bw.newLine();
+                break;
+            }
+
+            System.out.println(groups[i][8].getFirstName() + " " + groups[i][8].getSurName() + " : " + groups[i][8].getPreferredRole() + " : " + groups[i][8].getStudentClass() + " : " + groups[i][8].getStrongRole());
+            bw.write(groups[i][8].getFirstName() + " " + groups[i][8].getSurName() + " : " + groups[i][8].getPreferredRole() + " : " + groups[i][8].getStudentClass() + " : " + groups[i][8].getStrongRole());
+            bw.newLine();
+        }
+        
+        System.out.println("----------See Group 10 Below-----------");
+        bw.write("----------See Group 10 Below-----------");
+        bw.newLine();
+        for (int i = 0; i < groups.length; i++) {
+
+            if (groups[i][9] == null) {
+                System.out.println("Empty space");
+                bw.write("Empty space");
+                bw.newLine();
+                break;
+            }
+
+            System.out.println(groups[i][9].getFirstName() + " " + groups[i][9].getSurName() + " : " + groups[i][9].getPreferredRole() + " : " + groups[i][9].getStudentClass()  + " : " + groups[i][9].getStrongRole());
+            bw.write(groups[i][9].getFirstName() + " " + groups[i][9].getSurName() + " : " + groups[i][9].getPreferredRole() + " : " + groups[i][9].getStudentClass() + " : " + groups[i][9].getStrongRole());
+            bw.newLine();
+        }
+        // the saved groups are stored in a two-dimensional array
+        // for example, groups[0][0] is the 1st student in the 1st group
+        bw.close();
     }
     
     /*
@@ -368,6 +537,7 @@ public class StudentSorter extends javax.swing.JFrame {
         //System.out.println("Strongest Role: " + strongRole);
     }
     
+    //Adds the classes to the dropbox form the database
     private void addToCDropBox(){
         final String retrieveQuery = "SELECT CLASSNAME from richard.classes";
         cc.setQuery(retrieveQuery);
@@ -385,6 +555,7 @@ public class StudentSorter extends javax.swing.JFrame {
         }
     }
     
+    //Adds the roles from the database to the dropbox
     private void addToRDropBox(){
         final String retrieveQuery = "SELECT ROLE from richard.roles";
         rc.setQuery(retrieveQuery);
