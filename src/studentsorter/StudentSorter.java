@@ -280,9 +280,6 @@ public class StudentSorter extends javax.swing.JFrame {
             }
         }
         
-        /*
-        BELOW IS FOR TESTING PURPOSES ONLY-----------------------------------------------
-        */
         System.out.println("----------See Group 1 Below-----------");
         bw.write("----------See Group 1 Below-----------");
         bw.newLine();

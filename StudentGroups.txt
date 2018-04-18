@@ -25,7 +25,7 @@ Tom Smith : Business Analyst : SU100 : Team Management
 Kim Jones : Designer : SU100 : Document Writing
 Tim Barnes : Developer : SU100 : Designing
 Graham Everett : Tester : SU100 : Designing
-Empty space
+Chris Smith : Test : SU100 : Document Writing
 ----------See Group 5 Below-----------
 Empty space
 ----------See Group 6 Below-----------
